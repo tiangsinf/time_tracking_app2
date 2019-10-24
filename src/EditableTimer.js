@@ -3,20 +3,31 @@ import React from "react";
 import { TimerForm } from "./TimerForm";
 import { Timer } from "./Timer";
 
+export const EditableTimerContext = React.createContext({
+    editFormOpen: "",
+    handleEditFormOpen: () => {}
+});
+
 export const EditableTimer = props => {
     const [editFormOpen, setEditFormOpen] = React.useState(false);
+
+    const handleEditFormOpen = () => {
+        setEditFormOpen(true);
+    };
 
     if (editFormOpen) {
         return <TimerForm title={props.title} project={props.project} />;
     } else {
         return (
-            <Timer
-                id={props.id}
-                title={props.title}
-                project={props.project}
-                elapsed={props.elapsed}
-                runningSince={props.runningSince}
-            />
+            <EditableTimerContext.Provider value={handleEditFormOpen}>
+                <Timer
+                    id={props.id}
+                    title={props.title}
+                    project={props.project}
+                    elapsed={props.elapsed}
+                    runningSince={props.runningSince}
+                />
+            </EditableTimerContext.Provider>
         );
     }
 };

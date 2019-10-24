@@ -11,6 +11,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
+import { EditableTimerContext } from "./EditableTimer";
+
 const StyledMenu = withStyles({
     paper: {
         border: "1px solid #d3d4d5"
@@ -42,6 +44,8 @@ const StyledMenuItem = withStyles(theme => ({
     }
 }))(MenuItem);
 
+
+
 export const SettingMenu = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -52,6 +56,8 @@ export const SettingMenu = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const handleEditFormOpen = React.useContext(EditableTimerContext);
 
     return (
         <>
@@ -65,7 +71,7 @@ export const SettingMenu = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <StyledMenuItem>
+                <StyledMenuItem onClick={handleEditFormOpen}>
                     <ListItemIcon>
                         <EditIcon />
                     </ListItemIcon>
