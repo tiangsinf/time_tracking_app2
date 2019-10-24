@@ -5,6 +5,12 @@ import { Container, Box, Typography, Divider } from "@material-ui/core";
 import { EditableTimerList } from "./EditableTimerList";
 import { ToggleableTimerForm } from "./ToggleableTimerForm";
 
+
+export const TimerDashboardContext = React.createContext({
+    timers: [],
+    handleCreateFormSubmit: () => {}
+});
+
 export const TimerDashboard = () => {
     const [timers, setTimer] = React.useState([
         {
@@ -52,10 +58,14 @@ export const TimerDashboard = () => {
                 <Divider />
             </Box>
             <Box justifyContent="center" m={3} mb={1}>
-                <EditableTimerList timers={timers} />
-                <ToggleableTimerForm
-                    onInformedFormSubmit={handleCreateFormSubmit}
-                />
+                <TimerDashboardContext.Provider 
+                    value={handleCreateFormSubmit} 
+                >
+                    <EditableTimerList timers={timers} />
+                    <ToggleableTimerForm
+                        onInformedFormSubmit={handleCreateFormSubmit}
+                    />
+                </TimerDashboardContext.Provider>
             </Box>
         </Container>
     );

@@ -11,9 +11,41 @@ import {
     Button
 } from "@material-ui/core";
 
-// Stateful: Form is always stateful.
+import { TimerDashboardContext } from "./TimerDashboard";
+
 export const TimerForm = props => {
-    const submitText = props.title ? "Update" : "Create";
+
+    const [timerForm, setTimerForm] = React.useState({
+        title: "",
+        project: ""
+    });
+
+    if (props.id) {
+        setTimerForm({
+            title: props.title,
+            project: props.project
+        });
+    };
+
+    const submitText = props.id ? "Update" : "Create";
+
+    const handleTitleChange = e => {
+        setTimerForm({...timerForm, title: e.target.value})
+    };
+
+    const handleProjectChange = e => {
+        setTimerForm({...timerForm, project: e.target.value})
+    };
+
+    const informCreateFormSubmit = () => {
+        handleCreateFormSubmit({
+            title: timerForm.title,
+            project: timerForm.project
+        });
+    };
+
+    // get update TimerDashboard from context
+    const handleCreateFormSubmit = React.useContext(TimerDashboardContext);
 
     return (
         <Box display="flex" justifyContent="center" m={3} mb={1}>
@@ -45,8 +77,9 @@ export const TimerForm = props => {
                             label="Title"
                             margin="normal"
                             variant="outlined"
-                            defaultValue={props.title}
+                            defaultValue={timerForm.title}
                             placeholder="Title"
+                            onChange={handleTitleChange}
                         />
                         <TextField
                             fullWidth
@@ -55,16 +88,25 @@ export const TimerForm = props => {
                             label="Project"
                             margin="normal"
                             variant="outlined"
-                            defaultValue={props.project}
+                            defaultValue={timerForm.project}
                             placeholder="Project"
+                            onChange={handleProjectChange}
                         />
                     </form>
                 </CardContent>
                 <ButtonGroup fullWidth size="large">
-                    <Button variant="contained" color="primary">
+                    <Button 
+                        variant="contained" 
+                        color="primary"
+                        onClick={informCreateFormSubmit}
+                    >
                         {submitText}
                     </Button>
-                    <Button variant="contained" color="secondary">
+                    <Button 
+                        variant="contained" 
+                        color="secondary"
+                        onClick={props.informTimerFormClose}
+                    >
                         Cancel
                     </Button>
                 </ButtonGroup>
