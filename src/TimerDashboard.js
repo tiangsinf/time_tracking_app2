@@ -9,16 +9,16 @@ export const TimerDashboard = () => {
     const [timers, setTimer] = React.useState([
         {
             id: uuidv4(),
-            title: "Learn React",
-            project: "World Domination",
-            elapsed: "86300",
-            runningSince: null
+            title: "Practice squat",
+            project: "Gym Chores",
+            elapsed: 5456099,
+            runningSince: Date.now()
         },
         {
             id: uuidv4(),
-            title: "Use Hook",
-            project: "React FTW",
-            elapsed: "3890985",
+            title: "Bake squash",
+            project: "Kitchen Chores",
+            elapsed: 1273998,
             runningSince: null
         }
     ]);
@@ -52,7 +52,7 @@ export const TimerDashboard = () => {
                 <Divider />
             </Box>
             <Box justifyContent="center" m={3} mb={1}>
-                <EditableTimerList />
+                <EditableTimerList timers={timers} />
                 <ToggleableTimerForm
                     onInformedFormSubmit={handleCreateFormSubmit}
                 />

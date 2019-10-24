@@ -6,13 +6,19 @@ import AddIcon from "@material-ui/icons/Add";
 import { TimerForm } from "./TimerForm";
 
 export const ToggleableTimerForm = props => {
-    if (props.isOpen) {
-        return <TimerForm isOpen={props.isOpen} />;
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    const handleTimerFormOpen = () => {
+        setIsOpen(true);
+    };
+
+    if (isOpen) {
+        return <TimerForm isOpen={isOpen} />;
     } else {
         return (
             <Box align="center" m={4}>
                 <Fab color="secondary" size="large">
-                    <AddIcon />
+                    <AddIcon onClick={handleTimerFormOpen} />
                 </Fab>
             </Box>
         );
