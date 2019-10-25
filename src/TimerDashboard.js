@@ -5,10 +5,11 @@ import { Container, Box, Typography, Divider } from "@material-ui/core";
 import { EditableTimerList } from "./EditableTimerList";
 import { ToggleableTimerForm } from "./ToggleableTimerForm";
 
-
 export const TimerDashboardContext = React.createContext({
     timers: [],
-    handleCreateFormSubmit: () => {}
+    handleCreateFormSubmit: () => {},
+    handleTimerUpdate: () => {},
+    handleTimerDelete: () => {}
 });
 
 export const TimerDashboard = () => {
@@ -49,6 +50,33 @@ export const TimerDashboard = () => {
         return timer;
     };
 
+    const handleTimerUpdate = attrs => {
+        updateTimer(attrs);
+    };
+
+    const updateTimer = attrs => {
+        setTimer(
+            timers.map(timer => {
+                if (timer.id === attrs.id) {
+                    return Object.assign({}, timer, {
+                        title: attrs.title,
+                        project: attrs.project
+                    });
+                } else {
+                    return timer;
+                }
+            })
+        );
+    };
+
+    const handleTimerDelete = id => {
+        deleteTimer(id);
+    };
+
+    const deleteTimer = id => {
+        setTimer(timers.filter(timer => timer.id !== id));
+    };
+
     return (
         <Container maxWidth="sm">
             <Box display="flex" justifyContent="center" m={3} mb={1}>
@@ -58,8 +86,12 @@ export const TimerDashboard = () => {
                 <Divider />
             </Box>
             <Box justifyContent="center" m={3} mb={1}>
-                <TimerDashboardContext.Provider 
-                    value={handleCreateFormSubmit} 
+                <TimerDashboardContext.Provider
+                    value={{
+                        handleCreateFormSubmit,
+                        handleTimerUpdate,
+                        handleTimerDelete
+                    }}
                 >
                     <EditableTimerList timers={timers} />
                     <ToggleableTimerForm

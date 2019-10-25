@@ -49,7 +49,7 @@ export const Timer = props => {
                     style={{ height: 50 }}
                     title={props.title}
                     subheader={props.project}
-                    action={<SettingMenu />}
+                    action={<SettingMenu id={props.id} />}
                 />
                 <Divider />
                 <CardContent style={{ height: 150 }}>

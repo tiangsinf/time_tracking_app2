@@ -12,6 +12,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 
 import { EditableTimerContext } from "./EditableTimer";
+import { TimerDashboardContext } from "./TimerDashboard";
 
 const StyledMenu = withStyles({
     paper: {
@@ -44,9 +45,7 @@ const StyledMenuItem = withStyles(theme => ({
     }
 }))(MenuItem);
 
-
-
-export const SettingMenu = () => {
+export const SettingMenu = props => {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = event => {
@@ -57,7 +56,12 @@ export const SettingMenu = () => {
         setAnchorEl(null);
     };
 
+    const informTimerDelete = () => {
+        handleTimerDelete(props.id);
+    };
+
     const handleEditFormOpen = React.useContext(EditableTimerContext);
+    const handleTimerDelete = React.useContext(TimerDashboardContext);
 
     return (
         <>
@@ -77,7 +81,7 @@ export const SettingMenu = () => {
                     </ListItemIcon>
                     <ListItemText primary="Update" />
                 </StyledMenuItem>
-                <StyledMenuItem>
+                <StyledMenuItem onClick={informTimerDelete}>
                     <ListItemIcon>
                         <DeleteIcon />
                     </ListItemIcon>

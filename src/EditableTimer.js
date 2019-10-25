@@ -15,8 +15,19 @@ export const EditableTimer = props => {
         setEditFormOpen(true);
     };
 
+    const handleTimerFormClose = () => {
+        setEditFormOpen(false);
+    };
+
     if (editFormOpen) {
-        return <TimerForm title={props.title} project={props.project} />;
+        return (
+            <TimerForm
+                id={props.id}
+                title={props.title}
+                project={props.project}
+                informTimerFormClose={handleTimerFormClose}
+            />
+        );
     } else {
         return (
             <EditableTimerContext.Provider value={handleEditFormOpen}>

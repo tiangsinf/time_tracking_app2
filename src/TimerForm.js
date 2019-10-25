@@ -14,38 +14,52 @@ import {
 import { TimerDashboardContext } from "./TimerDashboard";
 
 export const TimerForm = props => {
-
-    const [timerForm, setTimerForm] = React.useState({
-        title: "",
-        project: ""
+    const [timerForm, setTimerForm] = React.useState(() => {
+        if (props.id) {
+            return {
+                id: props.id,
+                title: props.title,
+                project: props.project
+            };
+        } else {
+            return {
+                title: "",
+                project: ""
+            };
+        }
     });
-
-    if (props.id) {
-        setTimerForm({
-            title: props.title,
-            project: props.project
-        });
-    };
 
     const submitText = props.id ? "Update" : "Create";
 
     const handleTitleChange = e => {
-        setTimerForm({...timerForm, title: e.target.value})
+        setTimerForm({ ...timerForm, title: e.target.value });
     };
 
     const handleProjectChange = e => {
-        setTimerForm({...timerForm, project: e.target.value})
+        setTimerForm({ ...timerForm, project: e.target.value });
     };
 
-    const informCreateFormSubmit = () => {
-        handleCreateFormSubmit({
-            title: timerForm.title,
-            project: timerForm.project
-        });
+    const informTimerFormSubmit = () => {
+        if (props.id) {
+            handleTimerUpdate({
+                id: props.id,
+                title: timerForm.title,
+                project: timerForm.project
+            });
+            props.informTimerFormClose();
+        } else {
+            handleCreateFormSubmit({
+                title: timerForm.title,
+                project: timerForm.project
+            });
+            props.informTimerFormClose();
+        }
     };
 
     // get update TimerDashboard from context
-    const handleCreateFormSubmit = React.useContext(TimerDashboardContext);
+    const { handleCreateFormSubmit, handleTimerUpdate } = React.useContext(
+        TimerDashboardContext
+    );
 
     return (
         <Box display="flex" justifyContent="center" m={3} mb={1}>
@@ -95,15 +109,15 @@ export const TimerForm = props => {
                     </form>
                 </CardContent>
                 <ButtonGroup fullWidth size="large">
-                    <Button 
-                        variant="contained" 
+                    <Button
+                        variant="contained"
                         color="primary"
-                        onClick={informCreateFormSubmit}
+                        onClick={informTimerFormSubmit}
                     >
                         {submitText}
                     </Button>
-                    <Button 
-                        variant="contained" 
+                    <Button
+                        variant="contained"
                         color="secondary"
                         onClick={props.informTimerFormClose}
                     >
