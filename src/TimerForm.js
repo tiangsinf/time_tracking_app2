@@ -57,9 +57,10 @@ export const TimerForm = props => {
     };
 
     // get update TimerDashboard from context
-    const { handleCreateFormSubmit, handleTimerUpdate } = React.useContext(
-        TimerDashboardContext
-    );
+    const { 
+        handleCreateFormSubmit, 
+        handleTimerUpdate 
+    } = React.useContext(TimerDashboardContext);
 
     return (
         <Box display="flex" justifyContent="center" m={3} mb={1}>

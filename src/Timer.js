@@ -13,6 +13,7 @@ import {
 import { SettingMenu } from "./SettingMenu";
 
 export const Timer = props => {
+
     // Convert elapsed to HH:MM:SS
     function renderElapsedString(elapsed, runningSince) {
         let totalElapsed = elapsed;

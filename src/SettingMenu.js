@@ -61,7 +61,7 @@ export const SettingMenu = props => {
     };
 
     const handleEditFormOpen = React.useContext(EditableTimerContext);
-    const handleTimerDelete = React.useContext(TimerDashboardContext);
+    const { handleTimerDelete } = React.useContext(TimerDashboardContext);
 
     return (
         <>
