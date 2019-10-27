@@ -11,6 +11,7 @@ export const EditableTimerList = ({ timers }) => {
             project={timer.project}
             elapsed={timer.elapsed}
             runningSince={timer.runningSince}
+            isRunning={timer.isRunning}
         />
     ));
 };

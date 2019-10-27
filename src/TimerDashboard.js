@@ -9,7 +9,9 @@ export const TimerDashboardContext = React.createContext({
     timers: [],
     handleCreateFormSubmit: () => {},
     handleTimerUpdate: () => {},
-    handleTimerDelete: () => {}
+    handleTimerDelete: () => {},
+    handleTimerStart: () => {},
+    handleTimerStop: () => {},
 });
 
 export const TimerDashboard = () => {
@@ -19,18 +21,26 @@ export const TimerDashboard = () => {
             title: "Practice squat",
             project: "Gym Chores",
             elapsed: 5456099,
-            runningSince: Date.now()
+            runningSince: Date.now(),
+            started: false,
+            isRunning: false
         },
         {
             id: uuidv4(),
             title: "Bake squash",
             project: "Kitchen Chores",
             elapsed: 1273998,
-            runningSince: null
+            runningSince: null,
+            started: false,
+            isRunning: false
         }
     ]);
 
-    // Create new timer
+    /* Timer handlers:
+       - Create new timer
+       - Update existing timer
+       - Delete existing timer
+    */
     const handleCreateFormSubmit = timer => {
         createTimer(timer);
     };
@@ -77,6 +87,37 @@ export const TimerDashboard = () => {
         setTimer(timers.filter(timer => timer.id !== id));
     };
 
+    const handleTimerStart = timerId => {
+        const now = Date.now();
+        setTimer(timers.map(timer => {
+            if (timer.id === timerId) {
+                return Object.assign({}, timer, {
+                    // elapsed: timer.elapsed + 1,
+                    runningSince: now,
+                    isRunning: true
+                })
+            } else {
+                return timer;
+            }
+        }))
+    };
+
+    const handleTimerStop = timerId => {
+        const now = Date.now();
+        setTimer(timers.map(timer => {
+            if (timer.id === timerId) {
+                const lastElapsed = now - timer.runningSince;
+                return Object.assign({}, timer, {
+                    elapsed: timer.elapsed + lastElapsed,
+                    runningSince: null,
+                    isRunning: false
+                })
+            } else {
+                return timer;
+            }
+        }))
+    };
+
     return (
         <Container maxWidth="sm">
             <Box display="flex" justifyContent="center" m={3} mb={1}>
@@ -90,7 +131,9 @@ export const TimerDashboard = () => {
                     value={{
                         handleCreateFormSubmit,
                         handleTimerUpdate,
-                        handleTimerDelete
+                        handleTimerDelete,
+                        handleTimerStart,
+                        handleTimerStop,
                     }}
                 >
                     <EditableTimerList timers={timers} />

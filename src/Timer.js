@@ -6,11 +6,12 @@ import {
     CardHeader,
     CardContent,
     Divider,
-    Typography,
-    Button
+    Typography
 } from "@material-ui/core";
 
 import { SettingMenu } from "./SettingMenu";
+import { TimerDashboardContext } from "./TimerDashboard";
+import TimerActions from "./TimerActions";
 
 export const Timer = props => {
 
@@ -21,7 +22,7 @@ export const Timer = props => {
             totalElapsed += Date.now() - runningSince;
         }
         return millisecondsToHuman(totalElapsed);
-    }
+    };
 
     function millisecondsToHuman(ms) {
         const seconds = Math.floor((ms / 1000) % 60);
@@ -35,13 +36,22 @@ export const Timer = props => {
         ].join(":");
 
         return humanized;
-    }
+    };
 
     function pad(numberString, size) {
         let padded = numberString;
         while (padded.length < size) padded = `0${padded}`;
         return padded;
-    }
+    };
+
+    const { handleTimerStart } = React.useContext(TimerDashboardContext);
+
+    React.useEffect(() => {
+        if (props.isRunning) {
+            const forceHandleTimerStart = setInterval(() => handleTimerStart(), 1000);
+            return () => clearInterval(forceHandleTimerStart);
+        };
+    });
 
     return (
         <Box display="flex" justifyContent="center" m={3} mb={1}>
@@ -63,14 +73,10 @@ export const Timer = props => {
                         {renderElapsedString(props.elapsed, props.runningSince)}
                     </Typography>
                 </CardContent>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                >
-                    START
-                </Button>
+                <TimerActions
+                    id={props.id}
+                    isRunning={props.isRunning}
+                />
             </Card>
         </Box>
     );

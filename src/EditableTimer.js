@@ -37,6 +37,7 @@ export const EditableTimer = props => {
                     project={props.project}
                     elapsed={props.elapsed}
                     runningSince={props.runningSince}
+                    isRunning={props.isRunning}
                 />
             </EditableTimerContext.Provider>
         );
